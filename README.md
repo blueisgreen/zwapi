@@ -1,3 +1,9 @@
 # Zanzibar World of Nuclear Energy - the API (zwapi!!)
 
-GraphQL API backend for Zanzibar's World of Nuclear Energy
+apollo - Apollo Server - GraphQL
+postgraphile = GraphQL for Postgres
+prisma - GraphQL
+
+fastify - REST API on Postgres
+
+- can include plug-in to Apollo
