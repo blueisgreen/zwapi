@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS public.lesson_plan
     objective text COLLATE pg_catalog."default",
     content text COLLATE pg_catalog."default",
     status character varying COLLATE pg_catalog."default",
-    "createdAt" timestamp with time zone NOT NULL,
-    "updatedAt" timestamp with time zone NOT NULL,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     "publishedAt" timestamp with time zone,
     "archivedAt" timestamp with time zone,
     CONSTRAINT lesson_plan_pkey PRIMARY KEY (id)
