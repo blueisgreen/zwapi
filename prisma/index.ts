@@ -3,42 +3,45 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  // queries go here
+  // const firstLesson = await prisma.lessonPlan.create({
+  //   data: { title: 'Atomic Basics' },
+  // })
+  // console.log('a lesson', firstLesson)
 
-  // await prisma.user.create({
+  // const moreLessons = await prisma.lessonPlan.createMany({
+  //   data: [{ title: 'When Atoms Split' }, { title: 'PWRs' }],
+  // })
+  // console.log('more lessons', moreLessons)
+
+  // const zanzi = await prisma.user.create({
   //   data: {
-  //     name: 'Alice',
-  //     email: 'alice@wonderland.com',
+  //     name: 'Zanzibar',
+  //     email: 'zanzisworld42@gmail.com',
   //     posts: {
-  //       create: { title: 'Hello, Rabbit.' },
+  //       create: { title: 'What would you like to know about nuclear power?' },
   //     },
   //     profile: {
-  //       create: { bio: 'I like cake' },
+  //       create: { bio: 'I am Zanzi' },
   //     },
   //   },
   // })
+  // console.log('zanzi', zanzi)
 
-  // const allUsers = await prisma.user.findMany({
-  //   include: {
-  //     posts: true,
-  //     profile: true,
-  //   },
-  // })
-
-  const post = await prisma.post.update({
-    where: { id: 1 },
-    data: { published: true },
+  const allUsers = await prisma.user.findMany()
+  const allPosts = await prisma.post.findMany()
+  const allLessons = await prisma.lessonPlan.findMany()
+  console.log('everything', {
+    lessons: allLessons,
+    users: allUsers,
+    posts: allPosts,
   })
 
-  console.log(post)
+  // const post = await prisma.post.update({
+  //   where: { id: 1 },
+  //   data: { published: true },
+  // })
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+  .catch((e) => console.error(e))
+  .finally(async () => await prisma.$disconnect())
