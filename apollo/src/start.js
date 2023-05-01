@@ -1,7 +1,21 @@
 import Fastify from 'fastify'
+import { ApolloServer, BaseContext } from '@apollo/server'
+import fastifyApollo, {
+  fastifyApolloDrainPlugin,
+} from '@as-integrations/fastify'
+
 const fastify = Fastify({
   logger: true,
 })
+
+const apollo =
+  new ApolloServer() <
+  BaseContext >
+  {
+    typeDefs,
+    resolvers,
+    plugins: [fastifyApolloDrainPlugin(fastify)],
+  }
 
 fastify.get('/', async (request, reply) => {
   return { hello: 'world' }
