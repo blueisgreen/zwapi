@@ -1,23 +1,23 @@
-import Fastify from 'fastify'
-import { ApolloServer, BaseContext } from '@apollo/server'
-import fastifyApollo, {
-  fastifyApolloDrainPlugin,
-} from '@as-integrations/fastify'
+import fastify from 'fastify'
+// import { ApolloServer, BaseContext } from '@apollo/server'
+// import fastifyApollo, {
+//   fastifyApolloDrainPlugin,
+// } from '@as-integrations/fastify'
 
-const fastify = Fastify({
+const server = fastify({
   logger: true,
 })
 
-const apollo =
-  new ApolloServer() <
-  BaseContext >
-  {
-    typeDefs,
-    resolvers,
-    plugins: [fastifyApolloDrainPlugin(fastify)],
-  }
+// const apollo =
+//   new ApolloServer() <
+//   BaseContext >
+//   {
+//     typeDefs,
+//     resolvers,
+//     plugins: [fastifyApolloDrainPlugin(fastify)],
+//   }
 
-fastify.get('/', async (request, reply) => {
+server.get('/', async (request, reply) => {
   return { hello: 'world' }
 })
 
@@ -26,9 +26,9 @@ fastify.get('/', async (request, reply) => {
  */
 const start = async () => {
   try {
-    await fastify.listen({ port: 3000 })
+    await server.listen({ port: 3000 })
   } catch (err) {
-    fastify.log.error(err)
+    server.log.error(err)
     process.exit(1)
   }
 }

@@ -1,68 +1,57 @@
-import Fastify from 'fastify'
-import { ApolloServer, BaseContext } from '@apollo/server'
-import fastifyApollo, {
-  fastifyApolloDrainPlugin,
-} from '@as-integrations/fastify'
+import fastify from 'fastify'
+// import { ApolloServer, BaseContext } from '@apollo/server'
+// import fastifyApollo, {
+//   fastifyApolloDrainPlugin,
+// } from '@as-integrations/fastify'
 
-const fastify = Fastify({
+interface IQuerystring {
+  username: string
+  password: string
+}
+
+interface IHeaders {
+  'h-Custom': string
+}
+
+const server = fastify({
   logger: true,
 })
 
-const typeDefs = `#graphql
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+// const apollo =
+//   new ApolloServer() <
+//   BaseContext >
+//   {
+//     typeDefs,
+//     resolvers,
+//     plugins: [fastifyApolloDrainPlugin(fastify)],
+//   }
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
-
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-`
-
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-]
-
-// Resolvers define how to fetch the types defined in your schema.
-// This resolver retrieves books from the "books" array above.
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
-}
-
-const apollo = new ApolloServer<BaseContext>({
-  typeDefs,
-  resolvers,
-  plugins: [fastifyApolloDrainPlugin(fastify)],
+server.get('/', async (request, reply) => {
+  return { hello: 'world' }
 })
 
-await apollo.start()
-
-fastify.get('/ping', async (request, reply) => {
+server.get('/ping', async (request, reply) => {
   return 'pong\n'
 })
 
-await fastify.register(fastifyApollo(apollo))
+server.get<{
+  Querystring: IQuerystring
+  Headers: IHeaders
+}>('/auth', async (request, reply) => {
+  const { username, password } = request.query
+  const customHeader = request.headers['h-Custom']
+  console.log('inputs', { username, password, customHeader })
+  return 'logged in!'
+})
 
+/**
+ * Run the server!
+ */
 const start = async () => {
   try {
-    await fastify.listen({ port: 3000 })
+    await server.listen({ port: 3000 })
   } catch (err) {
-    fastify.log.error(err)
+    server.log.error(err)
     process.exit(1)
   }
 }

@@ -19,7 +19,6 @@
     "graphql": "^16.6.0"
   },
   "devDependencies": {
-    "@tsconfig/node18": "^2.0.0",
     "@types/node": "^18.16.3",
     "prisma": "^4.13.0",
     "typescript": "^5.0.4"
