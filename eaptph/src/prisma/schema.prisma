@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LessonStatus {
+  ARCHIVED
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+}
+
+model LessonPlan {
+  id          Int          @id @default(autoincrement())
+  publicKey   String       @unique @default(uuid())
+  title       String       @db.VarChar(255)
+  subtitle    String?      @db.VarChar(255)
+  cover       String?      @db.VarChar(255)
+  synopsis    String?
+  objective   String?
+  content     String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  status      LessonStatus @default(DRAFT)
+  publishedAt DateTime?
+  archivedAt  DateTime?
+}

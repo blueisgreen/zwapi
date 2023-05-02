@@ -5,6 +5,7 @@ import express from 'express'
 import http from 'http'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import { prisma } from './prisma/client'
 
 // The GraphQL schema
 const typeDefs = `#graphql
