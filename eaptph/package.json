@@ -13,7 +13,7 @@
   "keywords": [],
   "author": "Happy Spirit Enterprises",
   "license": "MIT",
-  "type": "module",
+  "types": "module",
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/node": "^18.16.3",

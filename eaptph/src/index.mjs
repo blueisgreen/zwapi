@@ -5,19 +5,30 @@ import express from 'express'
 import http from 'http'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import { prisma } from './prisma/client'
+import { prisma } from './src/prisma/client.ts'
 
 // The GraphQL schema
 const typeDefs = `#graphql
   type Query {
-    hello: String
+    lessons: [LessonPlan]
+  }
+
+  type LessonPlan {
+    publicKey: publicKey!
+    title: String!
+    subtitle: String
+    cover: String
+    synopsis: String
+    objective: String
   }
 `
 
 // A map of functions which return data for the schema.
 const resolvers = {
   Query: {
-    hello: () => 'world',
+    boards: () => {
+      return prisma.lessonPlans.findMany()
+    },
   },
 }
 
