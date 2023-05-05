@@ -4,23 +4,14 @@
 const fastify = require('fastify')({
   logger: true,
 })
-const mercurius = require('mercurius')
+
 const firstRoute = require('./our-first-route.js')
-
-const schema = `
-  type Query {
-    add(x: Int, y: Int): Int
-  }
-`
-
-const resolvers = {
-  Query: {
-    add: async (_, { x, y }) => x + y,
-  },
-}
-
-fastify.register(mercurius, { schema, resolvers })
 fastify.register(firstRoute)
+
+const mercurius = require('mercurius')
+const { schema, resolvers } = require('./graphQLplumbing.js')
+fastify.register(mercurius, { schema, resolvers })
+
 fastify.get('/mathql', async function (req, reply) {
   const { x, y } = req.query
   fastify.log.info('blargy x=' + x + ' y=' + y)

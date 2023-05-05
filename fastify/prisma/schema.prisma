@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model LessonPlan {
+  id          Int          @id @default(autoincrement())
+  publicKey   String       @unique @default(dbgenerated("uuid_generate_v4()"))
+  title       String       @db.VarChar(255)
+  subtitle    String?      @db.VarChar(255)
+  cover       String?      @db.VarChar(255)
+  synopsis    String?
+  objective   String?
+  content     String?
+  createdAt   DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime     @db.Timestamptz(6)
+  status      LessonStatus @default(DRAFT)
+  publishedAt DateTime?    @db.Timestamptz(6)
+  archivedAt  DateTime?    @db.Timestamptz(6)
+}
+
+enum LessonStatus {
+  ARCHIVED
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+}
