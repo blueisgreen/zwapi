@@ -15,14 +15,53 @@ Next steps:
 */
 
 const schema = `
+  type Mutation {
+    createLessonPlan(title: String!): LessonPlan
+  }
+
+  enum LessonStatus {
+    DRAFT
+    IN_REVIEW
+    PUBLISHED
+    ARCHIVED
+  }
+
+  type LessonPlan {
+    id: ID!
+    title: String!
+    subtitle: String
+    cover: String
+    synopsis: String
+    objective: String
+    status: LessonStatus
+    content: String
+    createdAt: String
+    updatedAt: String
+    publishedAt: String
+    archivedAt: String
+  }
+
   type Query {
     add(x: Int, y: Int): Int
+    lessonPlans: [LessonPlan]
   }
 `
 
 const resolvers = {
   Query: {
     add: async (_, { x, y }) => x + y,
+    lessonPlans: async (_parent, args, ctx) => {
+      return ctx.prisma.lessonPlans.findMany()
+    },
+  },
+  Mutation: {
+    createLessonPlan: async (_parent, args, ctx) => {
+      return ctx.prisma.post.create({
+        data: {
+          title: args.title,
+        },
+      })
+    },
   },
 }
 
