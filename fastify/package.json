@@ -1,0 +1,15 @@
+{
+  "name": "zanzisworldapi",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "author": "Happy Spirit Enterprises",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node src/server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.17.0",
+    "graphql": "^16.6.0",
+    "mercurius": "^13.0.0"
+  }
+}

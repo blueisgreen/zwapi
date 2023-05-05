@@ -1,21 +1,24 @@
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- CreateEnum
 CREATE TYPE "LessonStatus" AS ENUM ('ARCHIVED', 'DRAFT', 'IN_REVIEW', 'PUBLISHED');
 
 -- CreateTable
 CREATE TABLE "LessonPlan" (
     "id" SERIAL NOT NULL,
-    "publicKey" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "subtitle" TEXT,
-    "cover" TEXT,
+    "publicKey" TEXT NOT NULL DEFAULT uuid_generate_v4(),
+    "title" VARCHAR(255) NOT NULL,
+    "subtitle" VARCHAR(255),
+    "cover" VARCHAR(255),
     "synopsis" TEXT,
     "objective" TEXT,
     "content" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMPTZ NOT NULL,
     "status" "LessonStatus" NOT NULL DEFAULT 'DRAFT',
-    "publishedAt" TIMESTAMP(3),
-    "archivedAt" TIMESTAMP(3),
+    "publishedAt" TIMESTAMPTZ,
+    "archivedAt" TIMESTAMPTZ,
 
     CONSTRAINT "LessonPlan_pkey" PRIMARY KEY ("id")
 );
